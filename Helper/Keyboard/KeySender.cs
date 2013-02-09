@@ -22,7 +22,7 @@ namespace Helper.Keyboard
 
         public void Send(string msg)
         {
-            foreach (var k in msg.Select(KeyBoardHelper.MapToVirtualKey))
+            foreach (var k in msg.Select(KeyboardHelper.MapToVirtualKey))
             {
                 KeyPress(k);
             }
@@ -62,7 +62,7 @@ namespace Helper.Keyboard
 
         internal UIntPtr LParam(Keys key, uint repeat, bool keyUp)
         {
-            var ret = repeat | (uint)KeyBoardHelper.MapToScanCode(key) << 16;
+            var ret = repeat | (uint)KeyboardHelper.MapToScanCode(key) << 16;
 
             if (keysPressed.Contains(key))
                 ret |= 0x40000000; //prev key state = 1

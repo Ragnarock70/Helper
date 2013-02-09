@@ -81,7 +81,7 @@
     <Compile Include="Mouse\Hook.cs" />
     <Compile Include="Keyboard\Hook.cs" />
     <Compile Include="Keyboard\KeySender.cs" />
-    <Compile Include="Keyboard\KeyBoardHelper.cs" />
+    <Compile Include="Keyboard\KeyboardHelper.cs" />
     <Compile Include="Mouse\MouseHelper.cs" />
     <Compile Include="WinAPI\Const.cs" />
     <Compile Include="WinAPI\Delegates.cs" />

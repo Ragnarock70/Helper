@@ -4,7 +4,7 @@ using Helper.WinAPI;
 
 namespace Helper.Keyboard
 {
-    internal static class KeyBoardHelper
+    internal static class KeyboardHelper
     {
         internal static IEnumerable<Keys> GetModifiers(this Keys key)
         {
