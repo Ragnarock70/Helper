@@ -32,12 +32,7 @@ namespace Helper.Keyboard
         public void KeyPress(Keys key)
         {
             var modKeys = key.GetModifiers().ToArray();
-
-            //if (key.HasFlag(Keys.Oemtilde))
-            //{
-            //    key = key | modKeys[0];
-            //}
-
+            
             foreach (var mod in modKeys)
                 KeyDown(mod);
 
@@ -67,29 +62,14 @@ namespace Helper.Keyboard
 
         internal UIntPtr LParam(Keys key, uint repeat, bool keyUp)
         {
-            //var ret = repeat | (uint)KeyBoardHelper.MapToScanCode(key) << 16;
+            var ret = repeat | (uint)KeyBoardHelper.MapToScanCode(key) << 16;
 
-            //if (keysPressed.Contains(key))
-            //    ret |= 0x40000000; //prev key state = 1
-            //if (keyUp)
-            //    ret |= 0x80000000; //transition state = 1
-
-            //return new UIntPtr(ret);
-
-
-            uint result = repeat;
-
-            byte scancode = KeyBoardHelper.MapToScanCode(key);
-            result |= (uint)(scancode << 16);
-
-            if (keysPressed.Contains(Keys.Menu))
-                result |= 0x20000000;
             if (keysPressed.Contains(key))
-                result |= 0x40000000;
+                ret |= 0x40000000; //prev key state = 1
             if (keyUp)
-                result |= 0x80000000;
+                ret |= 0x80000000; //transition state = 1
 
-            return new UIntPtr(result);
+            return new UIntPtr(ret);
         }
 
     }

@@ -129,6 +129,7 @@ namespace HelperSample
             kSender.hWnd = hWnd;
 
             kSender.Send(e.KeyChar.ToString());
+            e.Handled = true;
         }
     }
 }
