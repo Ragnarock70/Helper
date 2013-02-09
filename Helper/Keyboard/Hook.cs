@@ -13,15 +13,12 @@ namespace Helper.Keyboard
         private IntPtr _HookId;
         private HookProc hookProc;
 
-        public bool InterceptKeys { get; set; }
         public bool IsRunning { get; private set; }
         public event KeyEventHandler OnKeyDown;
         public event KeyEventHandler OnKeyUp;
 
-        public Hook(bool interceptKeys, bool start = false)
+        public Hook(bool start = false)
         {
-            InterceptKeys = interceptKeys;
-
             if (start)
                 Start();
         }
