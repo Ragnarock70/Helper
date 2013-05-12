@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace Helper.WinAPI
 {
+    // ReSharper disable FieldCanBeMadeReadOnly.Global
+    // ReSharper disable MemberCanBePrivate.Global
+    // ReSharper disable UnusedMember.Global
+
     [Flags]
     internal enum KBDLLHOOKSTRUCTFlags : uint
     {
@@ -149,5 +153,84 @@ namespace Helper.WinAPI
         /// Not currently documented
         /// </summary>
         MAPVK_VK_TO_VSC_EX = 0x04
+    }
+
+    internal enum TernaryRasterOperations : uint
+    {
+        SRCCOPY = 0x00CC0020,
+        SRCPAINT = 0x00EE0086,
+        SRCAND = 0x008800C6,
+        SRCINVERT = 0x00660046,
+        SRCERASE = 0x00440328,
+        NOTSRCCOPY = 0x00330008,
+        NOTSRCERASE = 0x001100A6,
+        MERGECOPY = 0x00C000CA,
+        MERGEPAINT = 0x00BB0226,
+        PATCOPY = 0x00F00021,
+        PATPAINT = 0x00FB0A09,
+        PATINVERT = 0x005A0049,
+        DSTINVERT = 0x00550009,
+        BLACKNESS = 0x00000042,
+        WHITENESS = 0x00FF0062,
+        CAPTUREBLT = 0x40000000 //only if WinVer >= 5.0.0 (see wingdi.h)
+    }
+
+    [Flags]
+    internal enum RedrawWindowFlags : uint
+    {
+        /// <summary>
+        /// Invalidates the rectangle or region that you specify in lprcUpdate or hrgnUpdate.
+        /// You can set only one of these parameters to a non-NULL value. If both are NULL, RDW_INVALIDATE invalidates the entire window.
+        /// </summary>
+        Invalidate = 0x1,
+
+        /// <summary>Causes the OS to post a WM_PAINT message to the window regardless of whether a portion of the window is invalid.</summary>
+        InternalPaint = 0x2,
+
+        /// <summary>
+        /// Causes the window to receive a WM_ERASEBKGND message when the window is repainted.
+        /// Specify this value in combination with the RDW_INVALIDATE value; otherwise, RDW_ERASE has no effect.
+        /// </summary>
+        Erase = 0x4,
+
+        /// <summary>
+        /// Validates the rectangle or region that you specify in lprcUpdate or hrgnUpdate.
+        /// You can set only one of these parameters to a non-NULL value. If both are NULL, RDW_VALIDATE validates the entire window.
+        /// This value does not affect internal WM_PAINT messages.
+        /// </summary>
+        Validate = 0x8,
+
+        NoInternalPaint = 0x10,
+
+        /// <summary>Suppresses any pending WM_ERASEBKGND messages.</summary>
+        NoErase = 0x20,
+
+        /// <summary>Excludes child windows, if any, from the repainting operation.</summary>
+        NoChildren = 0x40,
+
+        /// <summary>Includes child windows, if any, in the repainting operation.</summary>
+        AllChildren = 0x80,
+
+        /// <summary>Causes the affected windows, which you specify by setting the RDW_ALLCHILDREN and RDW_NOCHILDREN values, to receive WM_ERASEBKGND and WM_PAINT messages before the RedrawWindow returns, if necessary.</summary>
+        UpdateNow = 0x100,
+
+        /// <summary>
+        /// Causes the affected windows, which you specify by setting the RDW_ALLCHILDREN and RDW_NOCHILDREN values, to receive WM_ERASEBKGND messages before RedrawWindow returns, if necessary.
+        /// The affected windows receive WM_PAINT messages at the ordinary time.
+        /// </summary>
+        EraseNow = 0x200,
+
+        Frame = 0x400,
+
+        NoFrame = 0x800
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left;        // x position of upper-left corner
+        public int Top;         // y position of upper-left corner
+        public int Right;       // x position of lower-right corner
+        public int Bottom;      // y position of lower-right corner
     }
 }

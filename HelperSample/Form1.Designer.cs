@@ -32,6 +32,8 @@
             this.btnKBHook = new System.Windows.Forms.Button();
             this.btnMouseHook = new System.Windows.Forms.Button();
             this.btnFindHandle = new System.Windows.Forms.Button();
+            this.BtnClickMe = new System.Windows.Forms.Button();
+            this.BtnClick = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // rtbOutput
@@ -76,11 +78,34 @@
             this.btnFindHandle.UseVisualStyleBackColor = true;
             this.btnFindHandle.Click += new System.EventHandler(this.btnFindHandle_Click);
             // 
+            // BtnClickMe
+            // 
+            this.BtnClickMe.ForeColor = System.Drawing.Color.Red;
+            this.BtnClickMe.Location = new System.Drawing.Point(251, 463);
+            this.BtnClickMe.Name = "BtnClickMe";
+            this.BtnClickMe.Size = new System.Drawing.Size(75, 23);
+            this.BtnClickMe.TabIndex = 6;
+            this.BtnClickMe.Text = "Click Me";
+            this.BtnClickMe.UseVisualStyleBackColor = true;
+            this.BtnClickMe.Click += new System.EventHandler(this.BtnClickMe_Click);
+            // 
+            // BtnClick
+            // 
+            this.BtnClick.Location = new System.Drawing.Point(332, 463);
+            this.BtnClick.Name = "BtnClick";
+            this.BtnClick.Size = new System.Drawing.Size(56, 23);
+            this.BtnClick.TabIndex = 7;
+            this.BtnClick.Text = "Click it";
+            this.BtnClick.UseVisualStyleBackColor = true;
+            this.BtnClick.Click += new System.EventHandler(this.BtnClick_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(562, 498);
+            this.Controls.Add(this.BtnClick);
+            this.Controls.Add(this.BtnClickMe);
             this.Controls.Add(this.btnFindHandle);
             this.Controls.Add(this.btnMouseHook);
             this.Controls.Add(this.btnKBHook);
@@ -98,6 +123,8 @@
         private System.Windows.Forms.Button btnKBHook;
         private System.Windows.Forms.Button btnMouseHook;
         private System.Windows.Forms.Button btnFindHandle;
+        private System.Windows.Forms.Button BtnClickMe;
+        private System.Windows.Forms.Button BtnClick;
     }
 }
 

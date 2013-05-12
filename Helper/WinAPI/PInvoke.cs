@@ -1,27 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Helper.WinAPI
 {
-    internal static class PInvoke
+    public static class PInvoke
     {
-        public static List<string> sended = new List<string>();
-        [DllImport("user32", SetLastError = true, EntryPoint = "PostMessage")]
-        internal extern static bool PostMessage2(IntPtr hWnd, WindowMessages message, IntPtr wParam, UIntPtr lParam);
-
-        internal static bool PostMessage(IntPtr hWnd, WindowMessages message, IntPtr wParam, UIntPtr lParam)
-        {
-            sended.Add(string.Format("MSG: {0}\twParam: {1:X}\tlParam: {2:X}", message, wParam.ToInt32(), lParam.ToUInt32()));
-            return PostMessage2(hWnd, message, wParam, lParam);
-        }
-
-        internal static void Save()
-        {
-            File.WriteAllLines("C:\\Bad.txt", sended);
-        }
+        [DllImport("user32", SetLastError = true)]
+        internal extern static bool PostMessage(IntPtr hWnd, WindowMessages message, IntPtr wParam, UIntPtr lParam);
 
         [DllImport("user32.dll")]
         internal static extern uint MapVirtualKey(Keys uCode, MapVirtualKeyMapTypes uMapType);
@@ -48,6 +35,82 @@ namespace Helper.WinAPI
         internal static extern IntPtr WindowFromPoint(POINT Point);
 
         [DllImport("user32.dll")]
+        internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
+
+        [DllImport("user32.dll")]
         internal static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        public static string GetText(IntPtr hWnd)
+        {
+            // Allocate correct string length first
+            var length = GetWindowTextLength(hWnd);
+            var sb = new StringBuilder(length + 1);
+            GetWindowText(hWnd, sb, sb.Capacity);
+            return sb.ToString();
+        }
+
+
+        #region Shit For Pixel.cs
+        
+        [DllImport("gdi32.dll")]
+        internal static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth, int nHeight);
+
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool DeleteObject(IntPtr ho);
+
+        [DllImport("user32.dll")]
+        internal static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr hWnd, ref RECT rect);
+
+        [DllImport("gdi32.dll")]
+        internal static extern bool DeleteDC(IntPtr hDC);
+
+        [DllImport("gdi32.dll")]
+        internal static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest, int nWidth,
+           int nHeight, IntPtr hObjSource, int nXSrc, int nYSrc, TernaryRasterOperations dwRop);
+
+        [DllImport("user32.dll", SetLastError = false)]
+        internal static extern IntPtr GetDesktopWindow();
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetWindowDC(IntPtr hWnd);
+
+        [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+        internal static extern IntPtr CreateCompatibleDC(IntPtr hdc);
+
+        [DllImport("gdi32.dll", EntryPoint = "SelectObject")]
+        internal static extern IntPtr SelectObject(IntPtr hdc, IntPtr h);
+
+        [DllImport("gdi32.dll")]
+        internal static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+
+        #endregion
+
+        #region Highlight
+
+        [DllImport("user32.dll")]
+        internal static extern int UpdateWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        internal static extern int InvalidateRect(IntPtr hWnd,
+            IntPtr lpRect, int bErase);
+
+        [DllImport("user32.dll")]
+        internal static extern int RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate,
+            IntPtr hrgnUpdate, RedrawWindowFlags flags);
+
+        #endregion
     }
 }

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper", "Helper\Helper.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperSample", "HelperSample\HelperSample.csproj", "{2F3308E6-3627-403A-A789-156BF9A4C756}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBox", "MBox\MBox.csproj", "{EC62A0B1-497F-4AA5-93DF-7A03AD210638}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{2F3308E6-3627-403A-A789-156BF9A4C756}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F3308E6-3627-403A-A789-156BF9A4C756}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F3308E6-3627-403A-A789-156BF9A4C756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC62A0B1-497F-4AA5-93DF-7A03AD210638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC62A0B1-497F-4AA5-93DF-7A03AD210638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC62A0B1-497F-4AA5-93DF-7A03AD210638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC62A0B1-497F-4AA5-93DF-7A03AD210638}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HelperSample
+namespace MBox
 {
     static class Program
     {
@@ -13,7 +16,7 @@ namespace HelperSample
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TestWin());
+            Application.Run(new Form1());
         }
     }
 }

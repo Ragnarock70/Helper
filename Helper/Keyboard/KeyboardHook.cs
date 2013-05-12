@@ -8,7 +8,7 @@ namespace Helper.Keyboard
 {
     public delegate bool KeyEventHandler(object sender, KeyEventArgs e);
 
-    public class Hook
+    public class KeyboardHook
     {
         private IntPtr _HookId;
         private HookProc hookProc;
@@ -17,13 +17,13 @@ namespace Helper.Keyboard
         public event KeyEventHandler OnKeyDown;
         public event KeyEventHandler OnKeyUp;
 
-        public Hook(bool start = false)
+        public KeyboardHook(bool start = false)
         {
             if (start)
                 Start();
         }
 
-        ~Hook()
+        ~KeyboardHook()
         {
             Stop();
         }

@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,11 +79,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mouse\Hook.cs" />
-    <Compile Include="Keyboard\Hook.cs" />
+    <Compile Include="Mouse\MouseHook.cs" />
+    <Compile Include="Keyboard\KeyboardHook.cs" />
     <Compile Include="Keyboard\KeySender.cs" />
     <Compile Include="Keyboard\KeyboardHelper.cs" />
     <Compile Include="Mouse\MouseHelper.cs" />
+    <Compile Include="Mouse\ClickSender.cs" />
+    <Compile Include="Screen\Pixel.cs" />
+    <Compile Include="Screen\ScreenHelper.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="WinAPI\Const.cs" />
     <Compile Include="WinAPI\Delegates.cs" />
     <Compile Include="Mouse\Handler.cs" />

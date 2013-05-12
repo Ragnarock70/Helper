@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Helper.WinAPI;
 
@@ -23,24 +19,21 @@ namespace Helper.Keyboard
         public void Send(string msg)
         {
             foreach (var k in msg.Select(KeyboardHelper.MapToVirtualKey))
-            {
                 KeyPress(k);
-            }
-            PInvoke.Save();
         }
 
         public void KeyPress(Keys key)
         {
-            var modKeys = key.GetModifiers().ToArray();
-            
-            foreach (var mod in modKeys)
-                KeyDown(mod);
+            //var modKeys = key.GetModifiers().ToArray();
+
+            //foreach (var mod in modKeys)
+            //    KeyDown(mod);
 
             KeyDown(key);
             KeyUp(key);
 
-            foreach (var mod in modKeys)
-                KeyUp(mod);
+            //foreach (var mod in modKeys)
+            //    KeyUp(mod);
         }
 
         public void KeyDown(Keys key)
@@ -60,7 +53,7 @@ namespace Helper.Keyboard
         }
 
 
-        internal UIntPtr LParam(Keys key, uint repeat, bool keyUp)
+        private UIntPtr LParam(Keys key, uint repeat, bool keyUp)
         {
             var ret = repeat | (uint)KeyboardHelper.MapToScanCode(key) << 16;
 

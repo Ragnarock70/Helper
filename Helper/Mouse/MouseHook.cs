@@ -6,7 +6,7 @@ using Helper.WinAPI;
 
 namespace Helper.Mouse
 {
-    public class Hook
+    public class MouseHook
     {
         private IntPtr _HookId;
         private HookProc hookProc;
@@ -23,13 +23,13 @@ namespace Helper.Mouse
 
         public bool IsRunning { get; private set; }
 
-        public Hook(bool start = false)
+        public MouseHook(bool start = false)
         {
             if (start)
                 Start();
         }
 
-        ~Hook()
+        ~MouseHook()
         {
             Stop();
         }
@@ -65,6 +65,8 @@ namespace Helper.Mouse
 
             var WinMsg = (WindowMessages)wParam;
             var info = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
+            PInvoke.ScreenToClient(PInvoke.GetForegroundWindow(), ref info.pt);
+            
 
             var process = true;
 
@@ -100,7 +102,7 @@ namespace Helper.Mouse
                 case WindowMessages.WM_XBUTTONDOWN:
                     if (OnMouseXButtonDown != null)
                     {
-                        var btnDownData = (short)((uint)info.mouseData >> 16);
+                        var btnDownData = Utilities.HIWord(info.mouseData);
                         var btnDown = btnDownData == 0x0001 ? MouseButtons.XButton1 : MouseButtons.XButton2;
                         process = OnMouseXButtonDown(this, new MouseDownEventArgs(btnDown, info.pt.x, info.pt.y));
                     }
@@ -108,7 +110,7 @@ namespace Helper.Mouse
                 case WindowMessages.WM_XBUTTONUP:
                     if (OnMouseXButtonUp != null)
                     {
-                        var btnUpData = (short)((uint)info.mouseData >> 16);
+                        var btnUpData = Utilities.HIWord(info.mouseData);
                         var btnUp = btnUpData == 0x0001 ? MouseButtons.XButton1 : MouseButtons.XButton2;
                         process = OnMouseXButtonUp(this, new MouseUpEventArgs(btnUp, info.pt.x, info.pt.y));
                     }
@@ -117,7 +119,7 @@ namespace Helper.Mouse
                 case WindowMessages.WM_MOUSEWHEEL:
                     if (OnMouseWheele != null)
                     {
-                        var delta = (short)((uint)info.mouseData >> 16);
+                        var delta = Utilities.HIWord(info.mouseData);
                         process = OnMouseWheele(this, new MouseWheeleEventArgs(info.pt.x, info.pt.y, delta));
                     }
                     break;
