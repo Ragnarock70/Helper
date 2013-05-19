@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Helper.Mouse;
-using Helper.Screen;
-using Helper.WinAPI;
+using Screen = Helper.Screen.Screen;
 
 namespace HelperSample
 {
@@ -26,11 +22,11 @@ namespace HelperSample
             //WindowState = FormWindowState.Minimized;
             Thread.Sleep(2000);
 
-            var bmp = Pixel.ScreenshotWithGetPixel(Handle);
+            var bmp = Screen.Pixel.ScreenshotWithGetPixel(Handle);
             getpixelpath = string.Format("ScreenShotGetPixel.{0}_{1}.jpg", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString().Replace(':', '.'));
             bmp.Save(getpixelpath, ImageFormat.Jpeg);
 
-            var bmp2 = Pixel.Screenshot(Handle);
+            var bmp2 = Screen.Pixel.Screenshot(Handle);
             bitbltpath = string.Format("ScreenShotBitBlt.{0}_{1}.jpg", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString().Replace(':', '.'));
             bmp2.Save(bitbltpath, ImageFormat.Jpeg);
 
@@ -48,14 +44,15 @@ namespace HelperSample
             Process.Start(bitbltpath);
         }
 
+        private IntPtr hWnd;
         private void btnSearch_Click(object sender, EventArgs e)
         {
             Thread.Sleep(2000);
-            //var hWnd = MouseHelper.DrawMouseHoverWindowRect();
-            
-            var founded = Pixel.SearchAll(0, 0, 999999, 999999, Color.Red, Handle, 1);
+            hWnd = Mouse.Utilities.DrawMouseHoverWindowRect(Color.DeepPink);
+
+            var found = Screen.Pixel.SearchAll(0, 0, 999999, 999999, Color.Red, Handle, 1);
             Thread.Sleep(2000);
-            //MouseHelper.ClearRect(hWnd);
+            Screen.Window.ClearRectangle(hWnd);
         }
 
         private void TestWin_Load(object sender, EventArgs e)
@@ -64,6 +61,13 @@ namespace HelperSample
             bmp3.SetPixel(20, 20, Color.Red);
             BackgroundImageLayout = ImageLayout.None;
             BackgroundImage = bmp3;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Thread.Sleep(2000);
+            //hWnd = MouseHelper.DrawMouseHoverWindowRect();
+            Screen.Window.BringToTop(Handle);
         }
     }
 }

@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Helper.Keyboard;
-using Helper.Mouse;
 
 namespace MBox
 {
@@ -22,7 +20,7 @@ namespace MBox
         private void Form1_Load(object sender, EventArgs e)
         {
             hook = new Hook(rltbOutput.Log);
-            
+
             LoadSettings();
 
             rltbOutput.WriteRandomShit();
@@ -42,6 +40,7 @@ namespace MBox
         }
 
         #region Main
+
         private void btnMainWindow_Click(object sender, EventArgs e)
         {
             btnMainWindow.Enabled = false;
@@ -61,7 +60,7 @@ namespace MBox
                 var hWnd = Helper.WinAPI.PInvoke.GetForegroundWindow();
 
                 var add = ".";
-                if (hook.Slaves.Keys.Contains(hWnd))
+                if (hook.Slaves.Contains(hWnd))
                 {
                     hook.Slaves.Remove(hWnd);
                     add = " (removed from slaves' list of course).";
@@ -118,7 +117,7 @@ namespace MBox
                 rltbOutput.Log("Err... You cannot be slave and master at the same time. Neither do windows :)", RichLogTextBox.OutputMode.Error);
                 return;
             }
-            if (hook.Slaves.Keys.Contains(hWnd))
+            if (hook.Slaves.Contains(hWnd))
             {
                 rltbOutput.Log("This window is already in the slavery list. Try Again !", RichLogTextBox.OutputMode.Error);
                 return;
@@ -127,17 +126,27 @@ namespace MBox
             var text = Helper.WinAPI.PInvoke.GetText(hWnd);
             rltbOutput.Log(string.Format("You choose '{0}' (0x{1:X}) as new slave", text, hWnd.ToInt32()));
             InvokeAction(() => lbSlaves.Items.Add(string.Format("{0} (0x{1:X})", text, hWnd.ToInt32())));
-            hook.Slaves.Add(hWnd, new Tuple<KeySender, ClickSender>(new KeySender(hWnd), new ClickSender(hWnd)));
+            hook.Slaves.Add(hWnd);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            btnMainWindow.Enabled = false;
-            btnSecondaryWindow.Enabled = false;
-            IsRunning = true;
+            if (IsRunning)
+            {
+                hook.Stop(Settings.Instance.DevicesHooked);
+                btnStart.Text = "Start";
+            }
+            else
+            {
+                hook.Start(Settings.Instance.DevicesHooked);
+                btnStart.Text = "Stop";
+            }
 
-            hook.Start(Settings.Instance.DevicesHooked);
+            btnMainWindow.Enabled = IsRunning;
+            btnSecondaryWindow.Enabled = IsRunning;
+            IsRunning = !IsRunning;
         }
+
         #endregion
 
         #region Settings
@@ -339,7 +348,6 @@ namespace MBox
         }
         #endregion
 
-
         #region Life made easy
         private void InvokeAction(Action act)
         {
@@ -350,7 +358,6 @@ namespace MBox
         private void btnTest_Click(object sender, EventArgs e)
         {
             new TestForm().Show();
-
         }
     }
 }

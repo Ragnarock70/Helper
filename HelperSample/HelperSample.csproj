@@ -50,8 +50,20 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MouseTestWin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MouseTestWin.Designer.cs">
+      <DependentUpon>MouseTestWin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SlaveWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SlaveWindow.Designer.cs">
+      <DependentUpon>SlaveWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestWin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +72,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MouseTestWin.resx">
+      <DependentUpon>MouseTestWin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -70,6 +85,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SlaveWindow.resx">
+      <DependentUpon>SlaveWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TestWin.resx">
       <DependentUpon>TestWin.cs</DependentUpon>
     </EmbeddedResource>

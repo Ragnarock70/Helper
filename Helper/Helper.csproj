@@ -79,20 +79,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mouse\MouseHook.cs" />
-    <Compile Include="Keyboard\KeyboardHook.cs" />
-    <Compile Include="Keyboard\KeySender.cs" />
-    <Compile Include="Keyboard\KeyboardHelper.cs" />
-    <Compile Include="Mouse\MouseHelper.cs" />
-    <Compile Include="Mouse\ClickSender.cs" />
+    <Compile Include="Ext.cs" />
+    <Compile Include="Mouse\Hook.cs" />
+    <Compile Include="Keyboard\Hook.cs" />
+    <Compile Include="Keyboard\Sender.cs" />
+    <Compile Include="Keyboard\Utilities.cs" />
+    <Compile Include="Mouse\Utilities.cs" />
+    <Compile Include="Mouse\Sender.cs" />
     <Compile Include="Screen\Pixel.cs" />
-    <Compile Include="Screen\ScreenHelper.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Screen\Utilities.cs" />
+    <Compile Include="Screen\Window.cs" />
     <Compile Include="WinAPI\Const.cs" />
     <Compile Include="WinAPI\Delegates.cs" />
     <Compile Include="Mouse\Handler.cs" />
     <Compile Include="WinAPI\PInvoke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Changelog.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

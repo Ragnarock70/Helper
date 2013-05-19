@@ -11,12 +11,12 @@ namespace MBox
         internal static readonly Dictionary<Keys, List<Keys>> keys = new Dictionary<Keys, List<Keys>>();
 
         internal IntPtr Master { get; set; }
-        internal readonly Dictionary<IntPtr, Tuple<KeySender, ClickSender>> Slaves = new Dictionary<IntPtr, Tuple<KeySender, ClickSender>>();
+        internal readonly List<IntPtr> Slaves = new List<IntPtr>();
 
-        private readonly KeyboardHook kbHook = new KeyboardHook();
+        private readonly Keyboard.Hook kbHook = new Keyboard.Hook();
         internal bool KeyboardHookIsRunning { get { return kbHook.IsRunning; } }
 
-        private readonly MouseHook mHook = new MouseHook();
+        private readonly Mouse.Hook mHook = new Mouse.Hook();
         internal bool MouseHookIsRunning { get { return mHook.IsRunning; } }
 
         private readonly Action<string, RichLogTextBox.OutputMode> LogCallback;
@@ -92,18 +92,18 @@ namespace MBox
                             var sKeys = string.Empty;
                             foreach (var key in kList)
                             {
-                                slave.Value.Item1.KeyDown(key);
+                                Keyboard.Sender.KeyDown(slave, key);
                                 sKeys += key + ", ";
                             }
-                            LogCallback(string.Format("Key down : {0}. Sended {1} to 0x{2:X}", e.KeyCode, sKeys.Remove(sKeys.Length - 2), slave.Key.ToInt32()),
+                            LogCallback(string.Format("Key down : {0}. Sended {1} to 0x{2:X}", e.KeyCode, sKeys.Remove(sKeys.Length - 2), slave.ToInt32()),
                                         RichLogTextBox.OutputMode.Debug);
                         }
                 }
                 else
                     foreach (var slave in Slaves)
                     {
-                        slave.Value.Item1.KeyDown(e.KeyCode);
-                        LogCallback(string.Format("Key down : {0}. Sended to 0x{1:X}", e.KeyCode, slave.Key.ToInt32()),
+                        Keyboard.Sender.KeyDown(slave, e.KeyCode);
+                        LogCallback(string.Format("Key down : {0}. Sended to 0x{1:X}", e.KeyCode, slave.ToInt32()),
                                     RichLogTextBox.OutputMode.Debug);
                     }
 
@@ -122,32 +122,32 @@ namespace MBox
                             var sKeys = string.Empty;
                             foreach (var key in kList)
                             {
-                                slave.Value.Item1.KeyUp(key);
+                                Keyboard.Sender.KeyUp(slave, key);
                                 sKeys += key + ", ";
                             }
-                            LogCallback(string.Format("Key up : {0}. Sended {1} to 0x{2:X}", e.KeyCode, sKeys.Remove(sKeys.Length - 2), slave.Key.ToInt32()),
+                            LogCallback(string.Format("Key up : {0}. Sended {1} to 0x{2:X}", e.KeyCode, sKeys.Remove(sKeys.Length - 2), slave.ToInt32()),
                                         RichLogTextBox.OutputMode.Debug);
                         }
                 }
                 else
                     foreach (var slave in Slaves)
                     {
-                        slave.Value.Item1.KeyUp(e.KeyCode);
-                        LogCallback(string.Format("Key up : {0}. Sended to 0x{1:X}", e.KeyCode, slave.Key.ToInt32()),
+                        Keyboard.Sender.KeyUp(slave, e.KeyCode);
+                        LogCallback(string.Format("Key up : {0}. Sended to 0x{1:X}", e.KeyCode, slave.ToInt32()),
                                     RichLogTextBox.OutputMode.Debug);
                     }
 
             return true;
         }
 
-
+        //TODO: NOT RUNNING
         private bool mHook_OnMouseLeftButtonDown(object sender, MouseDownEventArgs e)
         {
             if (Helper.WinAPI.PInvoke.GetForegroundWindow() == Master)
                 foreach (var slave in Slaves)
                 {
-                    slave.Value.Item2.MouseDown(e.Button, e.X, e.Y);
-                    LogCallback(string.Format("Mouse down : {0} ({1};{2}). Sended to 0x{3:X}", e.Button, e.X, e.Y, slave.Key.ToInt32()), RichLogTextBox.OutputMode.Debug);
+                    //Mouse.Sender.MouseDown(slave, e.Button, e.WindowPoint.X, e.WindowPoint.Y);
+                    LogCallback(string.Format("Mouse down : {0} ({1};{2}). Sended to 0x{3:X}", e.Button, e.WindowPoint.X, e.WindowPoint.Y, slave.ToInt32()), RichLogTextBox.OutputMode.Debug);
                 }
 
             return true;
@@ -158,8 +158,9 @@ namespace MBox
             if (Helper.WinAPI.PInvoke.GetForegroundWindow() == Master)
                 foreach (var slave in Slaves)
                 {
-                    slave.Value.Item2.MouseUp(e.Button, e.X, e.Y);
-                    LogCallback(string.Format("Mouse up : {0} ({1};{2}). Sended to 0x{3:X}", e.Button, e.X, e.Y, slave.Key.ToInt32()), RichLogTextBox.OutputMode.Debug);
+                    //Mouse.Sender.MouseUp(slave, e.Button, e.WindowPoint.X, e.WindowPoint.Y);
+                    Mouse.Sender.Click(slave, e.Button, e.WindowPoint.X, e.WindowPoint.Y);
+                    LogCallback(string.Format("Mouse up : {0} ({1};{2}). Sended to 0x{3:X}", e.Button, e.WindowPoint.X, e.WindowPoint.Y, slave.ToInt32()), RichLogTextBox.OutputMode.Debug);
                 }
 
             return true;

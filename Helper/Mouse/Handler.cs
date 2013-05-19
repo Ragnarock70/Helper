@@ -1,41 +1,55 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using Helper.WinAPI;
 
 namespace Helper.Mouse
 {
     public delegate bool MouseDownEventHandler(object sender, MouseDownEventArgs e);
+    public delegate bool MouseUpEventHandler(object sender, MouseUpEventArgs e);
+    public delegate bool MouseWheeleEventHandler(object sender, MouseWheeleEventArgs e);
 
     public class MouseDownEventArgs : EventArgs
     {
         public MouseButtons Button { get; private set; }
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public IntPtr WindowHandle { get; private set; }
+        public Point ScreenPoint { get; private set; }
+        public Point WindowPoint { get; private set; }
 
-        public MouseDownEventArgs(MouseButtons button, int x, int y)
+        public MouseDownEventArgs(MouseButtons button, POINT pt, IntPtr hWnd)
         {
             Button = button;
-            X = x;
-            Y = y;
+            ScreenPoint = new Point(pt.x, pt.y);
+
+            if (hWnd == IntPtr.Zero)
+                return;
+
+            WindowHandle = hWnd;
+            PInvoke.ScreenToClient(hWnd, ref pt);
+            WindowPoint = new Point(pt.x, pt.y);
         }
     }
-
-    public delegate bool MouseUpEventHandler(object sender, MouseUpEventArgs e);
 
     public class MouseUpEventArgs : EventArgs
     {
         public MouseButtons Button { get; private set; }
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public IntPtr WindowHandle { get; private set; }
+        public Point ScreenPoint { get; private set; }
+        public Point WindowPoint { get; private set; }
 
-        public MouseUpEventArgs(MouseButtons button, int x, int y)
+        public MouseUpEventArgs(MouseButtons button, POINT pt, IntPtr hWnd)
         {
             Button = button;
-            X = x;
-            Y = y;
+            ScreenPoint = new Point(pt.x, pt.y);
+
+            if (hWnd == IntPtr.Zero)
+                return;
+
+            WindowHandle = hWnd;
+            PInvoke.ScreenToClient(hWnd, ref pt);
+            WindowPoint = new Point(pt.x, pt.y);
         }
     }
-
-    public delegate bool MouseWheeleEventHandler(object sender, MouseWheeleEventArgs e);
 
     public class MouseWheeleEventArgs : EventArgs
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace MBox
 {
@@ -29,6 +27,12 @@ namespace MBox
                     }
             }
             base.WndProc(ref m);
+        }
+
+        private int i;
+        private void btnClick_Click(object sender, System.EventArgs e)
+        {
+            rtbMain.Text = (++i).ToString();
         }
     }
 }

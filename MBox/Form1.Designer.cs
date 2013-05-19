@@ -37,6 +37,7 @@
             this.rbMouse = new System.Windows.Forms.RadioButton();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnTest = new System.Windows.Forms.Button();
             this.lbSlaves = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -60,7 +61,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miQuit = new System.Windows.Forms.ToolStripMenuItem();
             this.rltbOutput = new MBox.RichLogTextBox();
-            this.btnTest = new System.Windows.Forms.Button();
             this.groupBox1gbDevices.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -179,6 +179,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(294, 189);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(117, 55);
+            this.btnTest.TabIndex = 6;
+            this.btnTest.Text = "Open test form";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Visible = false;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // lbSlaves
             // 
@@ -428,16 +439,6 @@
             this.rltbOutput.Size = new System.Drawing.Size(678, 185);
             this.rltbOutput.TabIndex = 0;
             this.rltbOutput.Text = "";
-            // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(294, 189);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(117, 55);
-            this.btnTest.TabIndex = 6;
-            this.btnTest.Text = "Open test form";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // Form1
             // 

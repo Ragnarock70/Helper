@@ -13,7 +13,7 @@ namespace HelperSample
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TestWin());
+            Application.Run(new Form1());
         }
     }
 }
