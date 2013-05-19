@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿//-----------------------
+// Copyright © Ragnarock
+//----------------------
+
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Helper

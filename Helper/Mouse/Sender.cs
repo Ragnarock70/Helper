@@ -1,4 +1,8 @@
-﻿using System;
+﻿//-----------------------
+// Copyright © Ragnarock
+//----------------------
+
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Helper.WinAPI;

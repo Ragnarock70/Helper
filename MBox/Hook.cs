@@ -1,4 +1,8 @@
-﻿using System;
+﻿//-----------------------
+// Copyright © Ragnarock
+//----------------------
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Helper.Keyboard;

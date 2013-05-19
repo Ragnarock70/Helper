@@ -1,4 +1,8 @@
-﻿using System.Windows.Forms;
+﻿//-----------------------
+// Copyright © Ragnarock
+//----------------------
+
+using System.Windows.Forms;
 using Helper.WinAPI;
 
 namespace Helper.Keyboard
