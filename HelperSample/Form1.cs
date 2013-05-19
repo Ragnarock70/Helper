@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
-using System.Security.Permissions;
 using System.Threading;
 using System.Windows.Forms;
 using Helper.Keyboard;
@@ -15,7 +16,7 @@ namespace HelperSample
         private Keyboard.Hook kbh;
         private Mouse.Hook mh;
 
-        private IntPtr hWnd = IntPtr.Zero;
+        private IntPtr WinHandle = IntPtr.Zero;
 
         public Form1()
         {
@@ -24,6 +25,12 @@ namespace HelperSample
 
         private void Output(string msg, params object[] args)
         {
+            if (rtbOutput.InvokeRequired)
+            {
+                rtbOutput.Invoke(new Action(() => Output(msg, args)));
+                return;
+            }
+
             rtbOutput.AppendText("\r\n" + string.Format(msg, args ?? new object[] { "" }));
             rtbOutput.Select(rtbOutput.Text.Length, 0);
             rtbOutput.ScrollToCaret();
@@ -118,54 +125,67 @@ namespace HelperSample
 
         private void btnFindHandle_Click(object sender, EventArgs e)
         {
-            Output("Put the mouse over which control you want to send some text, you have 3 seconds");
-            new Thread(() =>
-                           {
-                               var hWndMouse = Mouse.Utilities.GetMouseHoverWindowHandle();
-                               Screen.Window.DrawRectangle(hWndMouse, Color.Firebrick);
-
-
-                               for (int i = 0; i < 100; i++)
-                               {
-                                   Thread.Sleep(50);
-                                   var hWndTemp = Mouse.Utilities.GetMouseHoverWindowHandle();
-                                   if (hWndMouse == hWndTemp)
-                                       continue;
-
-                                   Screen.Window.ClearRectangle(hWndMouse);
-                                   Screen.Window.DrawRectangle(hWndTemp, Color.Firebrick);
-                                   hWndMouse = hWndTemp;
-                               }
-                           }).Start();
-
-            for (int i = 0; i < 3; )
-            {
-                Application.DoEvents();
-                Thread.Sleep(666);
-                Output("{0}...", ++i);
-                Thread.Sleep(333);
-            }
-
-
-            hWnd = Mouse.Utilities.GetMouseHoverWindowHandle(); //Mouse.Utilities.DrawMouseHoverWindowRect(Color.Firebrick);
-
-            Output("0x{0:X}.. That's a good choice !", hWnd);
-            Output("Now press any key within this textbox to send it.");
-
+            Output("Put the mouse over which window you want to send text, you have 5 seconds");
             new Thread(() =>
             {
-                Thread.Sleep(2000);
-                Screen.Window.ClearRectangle(hWnd);
+                var rnd = new Random();
+                var sec = 0;
+                var hWndMouse = Mouse.Utilities.GetMouseHoverWindowHandle();
+
+                Screen.Window.DrawRectangle(hWndMouse, Color.FromArgb(255, rnd.Next(256), rnd.Next(256), rnd.Next(256)));
+
+                for (int i = 0; i < 100; i++)
+                {
+                    if (i % 20 == 0)
+                        Output("{0}...", ++sec);
+
+                    Thread.Sleep(50);
+
+                    var hWndTemp = Mouse.Utilities.GetMouseHoverWindowHandle();
+                    if (hWndMouse == hWndTemp)
+                        continue;
+
+                    Screen.Window.ClearRectangle(hWndMouse);
+                    Screen.Window.DrawRectangle(hWndTemp, Color.FromArgb(255, rnd.Next(256), rnd.Next(256), rnd.Next(256)));
+
+                    hWndMouse = hWndTemp;
+                }
+
+                WinHandle = hWndMouse;
+                Screen.Window.ClearRectangle(WinHandle);
+                Output("0x{0:X}.. That's a good choice !", WinHandle);
+                Output("Now press any key within this textbox to send it.");
+
             }).Start();
         }
 
         private void rtbOutput_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (hWnd == IntPtr.Zero)
+            if (WinHandle == IntPtr.Zero)
                 return;
 
-            Keyboard.Sender.Send(hWnd, e.KeyChar.ToString(CultureInfo.InvariantCulture));
+            Keyboard.Sender.Send(WinHandle, e.KeyChar.ToString(CultureInfo.InvariantCulture));
             e.Handled = true;
+        }
+
+        private void btnScreenshot_Click(object sender, EventArgs e)
+        {
+            Output("Put the mouse over which window you want to screen, you have 5 seconds");
+            new Thread(() =>
+            {
+                for (int i = 0; i < 5; )
+                {
+                    Thread.Sleep(1000);
+                    Output("{0}...", ++i);
+                }
+
+                var hWnd = Mouse.Utilities.GetMouseHoverWindowHandle();
+                var bmp = Screen.Pixel.Screenshot(hWnd);
+
+                bmp.Save("Screenshot.jpg", ImageFormat.Jpeg);
+                Process.Start("Screenshot.jpg");
+
+            }) { IsBackground = true }.Start();
         }
     }
 }

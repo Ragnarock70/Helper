@@ -32,6 +32,7 @@
             this.btnKBHook = new System.Windows.Forms.Button();
             this.btnMouseHook = new System.Windows.Forms.Button();
             this.btnFindHandle = new System.Windows.Forms.Button();
+            this.btnScreenshot = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // rtbOutput
@@ -68,7 +69,8 @@
             // 
             // btnFindHandle
             // 
-            this.btnFindHandle.Location = new System.Drawing.Point(394, 463);
+            this.btnFindHandle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindHandle.Location = new System.Drawing.Point(378, 463);
             this.btnFindHandle.Name = "btnFindHandle";
             this.btnFindHandle.Size = new System.Drawing.Size(156, 23);
             this.btnFindHandle.TabIndex = 5;
@@ -76,15 +78,29 @@
             this.btnFindHandle.UseVisualStyleBackColor = true;
             this.btnFindHandle.Click += new System.EventHandler(this.btnFindHandle_Click);
             // 
+            // btnScreenshot
+            // 
+            this.btnScreenshot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnScreenshot.Location = new System.Drawing.Point(266, 463);
+            this.btnScreenshot.Name = "btnScreenshot";
+            this.btnScreenshot.Size = new System.Drawing.Size(78, 23);
+            this.btnScreenshot.TabIndex = 6;
+            this.btnScreenshot.Text = "Screenshot";
+            this.btnScreenshot.UseVisualStyleBackColor = true;
+            this.btnScreenshot.Click += new System.EventHandler(this.btnScreenshot_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(562, 498);
+            this.Controls.Add(this.btnScreenshot);
             this.Controls.Add(this.btnFindHandle);
             this.Controls.Add(this.btnMouseHook);
             this.Controls.Add(this.btnKBHook);
             this.Controls.Add(this.rtbOutput);
+            this.MinimumSize = new System.Drawing.Size(578, 536);
             this.Name = "Form1";
             this.Text = "Helper Sample";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -98,6 +114,7 @@
         private System.Windows.Forms.Button btnKBHook;
         private System.Windows.Forms.Button btnMouseHook;
         private System.Windows.Forms.Button btnFindHandle;
+        private System.Windows.Forms.Button btnScreenshot;
     }
 }
 
